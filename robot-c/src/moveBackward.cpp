@@ -23,4 +23,8 @@ int moveBackward(int direction,int speed,int milliseconds){
 
 	return 0;
 }
+int main(){
+	moveBackward(0,20,1000);
+	return 0;
+}
 

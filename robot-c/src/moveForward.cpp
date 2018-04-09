@@ -24,3 +24,8 @@ int moveForward(int direction,int speed,int milliseconds){
 	return 0;
 }
 
+int main(){
+	moveForward(1,10,1000);
+	return 0;
+}
+
