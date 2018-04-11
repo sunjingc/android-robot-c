@@ -31,7 +31,7 @@ int main(int argc, char **argv)
     do{
         len = read(s, buf, sizeof buf);
      if( len>0 ) {
-         buf[len=0;
+         buf[len]=0;
          printf("%s\n",buf);
          write(s, buf, strlen(buf));
      }
