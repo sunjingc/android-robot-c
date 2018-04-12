@@ -24,11 +24,12 @@ int main(int argc, char **argv)
     str2ba( dest, &addr.rc_bdaddr );
     // connect to server
     status = connect(s, (struct sockaddr *)&addr, sizeof(addr));
-    if(status){
+    if(!status){
         printf(" failed to connect the device!\n");
         return -1;
     }
     do{
+    	printf(" success to connect the device!\n");
         len = read(s, buf, sizeof buf);
      if( len>0 ) {
          buf[len]=0;
