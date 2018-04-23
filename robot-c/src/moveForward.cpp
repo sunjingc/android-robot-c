@@ -5,6 +5,7 @@
  *      Author: sj
  */
 #include "GPIOlib.h"
+#include <string.h>
 
 using namespace GPIO;
 
