@@ -6,21 +6,22 @@
  */
 
 #include <stdio.h>
-#include <stdlib.h>
 
-void main( int argc, char *argv[] ){
-　　char ch;
-　　FILE *fp;
-　　int i;
+int main()
+{
+FILE * fp;
+int a=10;
+int b;
 
-　　if((fp=fopen(argv[1],"/dev/rfcomm0"))==NULL)
-　　{
-　　　　printf("不能打开文件\n");
-　　　　exit(0);
-　　}
+fp=fopen("rfcomm","wb+");
 
-　　while ((ch=fgetc(fp))!=EOF)
-　　putchar(ch);
+fwrite(&a,sizeof(int),1,fp);///将a值写到文件中.这句起作用，移动了文件指针。
+fseek(fp,0,0);//将文件指针移回首部
+fread(&b,sizeof(int),1,fp);
 
-　　fclose(fp);
+printf("b is %d\n\n",b);
+
+fclose(fp);
+
+return 0;
 }
