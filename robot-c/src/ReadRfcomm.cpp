@@ -4,51 +4,80 @@
  *  Created on: 2018Äê4ÔÂ25ÈÕ
  *      Author: mm
  */
+#include <iostream>
+#include <fstream>
+#include <string>
 
+using namespace std;
 
+int main(){
+	ifstream in;//ifstream read a file
+	string filename = "/dev/rfcomm0";//data is restored in /dev/rfcomm0
+	in.open(filename);//open the file
+	if(!in){//if fail to open the file,return
+		cerr << "Fail to open the file!" <<endl;
+		return 1;
+	}
 
-#include <stdio.h>
-#include <unistd.h>
-#include <sys/socket.h>
-#include <bluetooth/bluetooth.h>
-#include <bluetooth/rfcomm.h>
+	char ch;//restore the content of the file
 
-int main(int argc, char **argv)
-{
-    struct sockaddr_rc addr = { 0 };
-    int s, status, len=0;
-    char dest[18] = "00:12:01:31:01:13";
-    char buf[256];
-    // allocate a socket
-    s = socket(AF_BLUETOOTH, SOCK_STREAM, BTPROTO_RFCOMM);
+	int flag = 0;
+	int direction = 0;
+	int leftDirection = 0;
+	int rightDirection = 0;
+	int speed = 0;
+	int leftSpeed = 0;
+	int rightSpeed = 0;
+	int milliseconds = 0;
 
-    // set the connection parameters (who to connect to)
-    addr.rc_family = AF_BLUETOOTH;
-    addr.rc_channel = (uint8_t) 1;
-    str2ba( dest, &addr.rc_bdaddr );
-
-        // connect to server
-    status = connect(s, (struct sockaddr *)&addr, sizeof(addr));
-
-
-    if(status){
-        printf(" failed to connect the device!\n");
-        return -1;
-    }
-
-
-    do{
-        len = read(s, buf, sizeof buf);
-
-     if( len>0 ) {
-         buf[len]=0;
-         printf("%s\n",buf);
-         write(s, buf, strlen(buf));
-     }
-    }while(len>0);
-
-    close(s);
-    return 0;
+	while(!in.eof){//there isn't the end of the file
+		string str = "";
+		int counter = 0;
+		in.read(&ch, 1);
+		while(ch!='\n'){
+			if(ch!=';'){
+			str = str + ch;
+			}else{
+				if(counter == 0){
+					flag = stoi(str);
+				}
+				if(flag == 1){
+					switch(counter){
+						case 1:
+							direction = stoi(str);
+							break;
+						case 2:
+							speed = stoi(str);
+							break;
+						case 3:
+							milliseconds = stoi(str);
+							break;
+					}
+				}else if(flag == 0){
+					switch(counter){
+						case 1:
+							leftDirection = stoi(str);
+							break;
+						case 2:
+							rightDirection = stoi(str);
+							break;
+						case 3:
+							leftSpeed = stoi(str);
+							break;
+						case 4:
+							rightSpeed = stoi(str);
+							break;
+						case 5:
+							milliseconds = stoi(str);
+							break;
+					}
+				}
+				str = "";
+				counter++;
+			}
+			in.read(&ch,1);
+		}
+	}
+	in.close();//close the file
+	return 1;
 }
-
-
