@@ -17,7 +17,7 @@ int moveForward(int speed,int milliseconds){
 	init();
 
 	controlLeft(1,speed);
-	controRight(1,speed);
+	controlRight(1,speed);
 	delay(milliseconds);
 
 	stopLeft();
@@ -50,7 +50,7 @@ int turnLeft(int angle){
 
 	turnTo(angle);
 
-	return
+	return 0;
 }
 
 int turnRight(int angle){
