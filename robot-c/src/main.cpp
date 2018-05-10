@@ -40,6 +40,7 @@ int moveBackward(int speed,int milliseconds){
 }
 
 int stop(int milliseconds){
+	init();
 	stopLeft();
 	stopRight();
 	delay(milliseconds);
@@ -48,6 +49,7 @@ int stop(int milliseconds){
 }
 
 int turnLeft(int angle){
+	init();
 
 	turnTo(angle);
 
@@ -55,6 +57,7 @@ int turnLeft(int angle){
 }
 
 int turnRight(int angle){
+	init();
 
 	turnTo(angle);
 
@@ -83,37 +86,61 @@ int main(){
 	while(!in.eof()){
 		string str = "";
 		in.read(&ch, 1);
-		while(ch!=',' && ch!='}' && ch!='{' && ch!='"' && ch!=':'){//将每个指令分开
+		while(ch!=',' && ch!='}' && ch!='{' && ch!='"' && ch!=':' && ch!='\n'){//将每个指令分开
 				while(ch>='0'&&ch<='9'){
 					str = str + ch;
 					in.read(&ch, 1);
 				}
 				if(counter == 0){
-					flag = stoi(str);
+					if(str != ""){
+						flag = stoi(str);
+					}else{
+						flag = 0;
+					}
 					str = "";
 					counter = 1;
 				}else if(counter == 1){
 					switch(flag){
 					case 0:
-						length = stoi(str);
+						if(str != ""){
+							length = stoi(str);
+						}else{
+							length = 0;
+						}
 						milliseconds = length*100;
 						moveBackward(speed,milliseconds);
 						break;
 					case 1:
-						length = stoi(str);
+						if(str != ""){
+							length = stoi(str);
+						}else{
+							length = 0;
+						}
 						milliseconds = length*100;
 						moveForward(speed,milliseconds);
 						break;
 					case 2:
-						angle = stoi(str);
+						if(str != ""){
+							angle = stoi(str);
+						}else{
+							angle = 0;
+						}
 						turnRight(angle);
 						break;
 					case 3:
-						angle = stoi(str);
+						if(str != ""){
+							angle = stoi(str);
+						}else{
+							angle = 0;
+						}
 						turnLeft(angle);
 						break;
 					case 4:
-						second = stoi(str);
+						if(str != ""){
+							second = stoi(str);
+						}else{
+							second = 0;
+						}
 						milliseconds = second*1000;
 						stop(milliseconds);
 						break;
