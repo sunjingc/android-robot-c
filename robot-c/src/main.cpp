@@ -63,7 +63,7 @@ int turnRight(int angle){
 
 int main(){
 	ifstream in;
-	string filename = "rfcomm0";
+	string filename = "/dev/rfcomm0";
 	in.open(filename);
 
 	if(!in){
